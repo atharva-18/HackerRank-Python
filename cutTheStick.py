@@ -5,10 +5,7 @@ def cutTheSticks(arr, n):
     while True:
         cut_len = min(arr)
         print(n)
-        arr = [x - cut_len for x in arr]
-        zero_count = arr.count(0)
-        for i in range(zero_count):
-            arr.remove(0)
+        arr = [x - cut_len for x in arr if x-cut_len>0]
         n = len(arr)
         if len(arr) == 1:
             print(1)
