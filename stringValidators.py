@@ -1,4 +1,4 @@
-s = list(raw_input())
+s = list(eval(input()))
 
 print(any(i.isalnum() for i in s))
 
