@@ -1,8 +1,8 @@
 #!/bin/python3
 
 # Complete the cavityMap function below.
-def cavityMap(g, n):
-    result = [list(row[:]) for row in g]
+def cavityMap(grid, n):
+    result = [list(row[:]) for row in grid]
     for i in range(1,(n-2)+1):
         for j in range(1,(n-2)+1):
             if grid[i][j]>max(grid[i-1][j],grid[i+1][j],grid[i][j-1],grid[i][j+1]):
