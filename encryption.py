@@ -1,5 +1,5 @@
 #!/bin/python3
-
+import math
 # Complete the encryption function below.
 def createMat(s, row, col):
     mat = ['']*row
@@ -27,14 +27,18 @@ def printMat(mat, row, col):
     print(out)
 
 def encryption(s):
-    row = int(len(s)**0.5)
-    col = row + 1
+    row = math.floor(len(s)**0.5)
+    col = math.ceil(len(s)**0.5)
     while row*col < len(s):
-        row += 1
+        if (row +1) * col >=len(s):
+            row += 1
+        else:
+            col +=1
     mat = createMat(s, row, col)
     return printMat(mat, row, col)
 
-s = input()
+# s = input()
+s = 'feedthedog'
 
 s = s.replace(' ', '')
 
