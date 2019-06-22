@@ -37,7 +37,8 @@ def encryption(s):
     mat = createMat(s, row, col)
     return printMat(mat, row, col)
 
-s = input()
+# s = input()
+s = 'feedthedog'
 
 s = s.replace(' ', '')
 
