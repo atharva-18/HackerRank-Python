@@ -1,68 +1,80 @@
 #!/bin/python3
 
-import math
-import os
-import random
-import re
-import sys
-
 # Complete the matrixRotation function below.
-def getLayer(i, j, m):
-    if m%2==0:
-        layer = abs(max(i-m/2, j-m/2))
-        if i>m/2 and j>m/2:
+def getLayer(i, j, m, n):
+    if m%2==0 and n%2==0:
+        layer = max(abs(i-m/2),abs(j-n/2))
+        if (j<=n-i and i<=m/2) or (i<=m-j and j<=n/2):
+            return layer + 1
+        else:
             return layer
-        return layer+1
     else: 
-        centre_pos = (m-1)/2 + 1
-        layer = abs(max(i-centre_pos, j-centre_pos))
+        center_i = (m-1)/2 + 1
+        center_j = (n-1)/2 + 1
+        layer = max(abs(i-center_i), abs(j-center_j))
         return layer+1
 
-def updateElementPos(i, j, m, n, r):
+def updateElementPos(i, j, m, n, r, layer):
     while r != 0:
-        if i == m and j == n:
-            break
-        elif i+1<=m and j<=n:
-            i += 1
+        if i == m and j == n and layer != 0:
+            i -= 1
             r -= 1
         elif i==m and j+1<=n:
             j += 1
             r -= 1
-        elif i+1<=m and j==n:
+        elif i+1<m and m-j>0:
             i += 1
             r -= 1
-        else:
-            j += 1
+        elif m>m-i>0 and j==n:
+            i -= 1
             r -= 1
+        elif m==i and j<=n and layer != 0:
+            j -= 1
+            r -= 1
+        else:
+            break
     return i, j
 
 def matrixRotation(matrix, r):
-    if r==0:
-        return matrix
-    m = len(matrix)
-    n = len(matrix[0])
-    peri = (2*m+2*n)
-    if peri<r:
-        r = r%(peri)
-    if int(r)==1:
-        return matrix
-    # else:
-    #     m_range = range
-    #     for i in range(len(matrix)):
-    #         for j in range(len(i)):
+    m, n = len(matrix), len(matrix[0]) 
+    if r==0 or (m==1 and n==1):
+        return print(matrix)
+    perimeter = n*2 + 2*(m - 2)
+    if r > perimeter:
+        r = r % perimeter
+    rotated_mat = [[0 for i in range(m)] for j in range(n)]
+    for i in range(len(matrix)):
+        for j in range(len(matrix[0])):
+            layer = int(getLayer(i+1, j+1, m, n)) - 1
+            m_elem = m - layer
+            n_elem = n//2 + layer
+            rotated_mat[i][j] = (m_elem, n_elem)
+            # i_elem, j_elem = updateElementPos(i, j, m_elem, n_elem, r, layer)
+            # rotated_mat[i_elem][j_elem] = matrix[i][j]
+    return rotated_mat
 
-if __name__ == '__main__':
-    mnr = input().rstrip().split()
+# if __name__ == '__main__':
+#     mnr = input().rstrip().split()
 
-    m = int(mnr[0])
+#     m = int(mnr[0])
 
-    n = int(mnr[1])
+#     n = int(mnr[1])
 
-    r = int(mnr[2])
+#     r = int(mnr[2])
 
-    matrix = []
+#     matrix = []
 
-    for _ in range(m):
-        matrix.append(list(map(int, input().rstrip().split())))
+#     for _ in range(m):
+#         matrix.append(list(map(int, input().rstrip().split())))
 
-    matrixRotation(matrix, r)
+#     matrixRotation(matrix, r)
+
+matrix = [[1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6], [1,2,3,4,5,6]]
+# matrix = [[1, 2, 3], [4, 5, 6], [7, 8, 9]]
+# matrix = [[1, 2], [3, 4]]
+r = 1
+output = matrixRotation(matrix, r)
+
+for i in range(len(output)):
+    print(output[i])
+
